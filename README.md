@@ -1,6 +1,8 @@
 # CrustyDB
 
-Instructions for the CrustyDB project, which I completed successfully in Spring 2024.
+Instructions and Work Log for the CrustyDB project, which I completed successfully in Spring 2024.
+_Note: Due to academic restrictions, this repository is private and intended for review only by potential employers. 
+The token will remain valid for the duration of the review process._
 
 ## CrustyDB 1 - Page Milestone
 
