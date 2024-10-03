@@ -1,0 +1,35 @@
+A brief description of your solution, in particular, any design decisions you 
+made and why. This is only needed for the parts of your solution that involve 
+significant work.
+
+My design uses eager compaction upon deletion of data and adds the slots from the
+end of the page towards the header until they meet. 
+The hardest part of the assignment was deciding how to structure and access the
+utilities that would allow me to reach the real data. There were some decisions 
+that I made hesistantly, because I was convinced that there would be a way for 
+me to do it more quickly. I was trying for a long time to figure out a way to 
+store some values externally (ex. as a struct or hashmap outside the page data).
+Once I realized I couldn't do this, I had to change some things: 
+- Finding the next slot id: I originally used my last 2 bytes of the page 
+header to store the next available slot id. I soon realized, however, that I 
+would not be able to quickly update or keep track of the value in a case where
+there is more than 1 delete before another addition. I decided to switch to 
+keeping track of the total number of slot headers (some of which may have been 
+wiped after a deletion and have no data, others which include current slot_ids).
+This proved helpful for iterating through the slot metadata, both for finding 
+the next slotid and for finding the locations of metadata for certain slots. 
+- Finding the location of a slot_id's metadata: I originally based the location 
+of the metadata on the slot_id number, which became impossible to do once I 
+zeroed out a slot header during a deletion. I had to carefully decide the 
+most efficient way to walk through and search for the location.
+
+
+How long did you roughly spend on the milestone, and what did you like/dislike?
+
+- I spent around 25 hours on the assignment. I really liked the puzzle of it, 
+trying to fit all the information in an array without storing the data elsewhere 
+and having the freedom to try things without being given much structure. I found
+the process of debugging the final stress test very, very challenging -- I think
+I would have appreciated more documentation within the test itself so that it was
+easier for me to understand what I was doing wrong. And more information about 
+how to use the debugger would have been helpful!

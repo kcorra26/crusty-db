@@ -1,0 +1,62 @@
+A Tour of CrustyDB
+When the client sends this request to the server: 
+    sql = SELECT * FROM table WHERE a > 10;
+the server takes the following steps: 
+
+server::handler handle_command(), where command = DB(ExecuteSQL("SELECT * FROM test WHERE a > 10;"))
+                handle_database_command(db, database_command);
+                run_database_command(db, database_command);
+server::conductor run_sql_from_string(sql, db), where sql = "SELECT * FROM test WHERE a > 10;"
+sqlparser::parser parse_sql(sql)
+                  validate_sql(sql)
+parser::parse_sql(dialect, sql)
+sqlparser::parser get_pks(columns, constraints)
+server::conductor self.run_sql(ast, db_state) 
+query::translate_and_validate from_sql(qbox, &db_state.catalog)
+                              translator.process_query(sql)
+                              self.process_from_clause(&select.from)
+                              self.process_where_clause(&select.selection)
+                              self.process_projection(final_projection_fields)
+query::planner  logical_plan_to_physical_plan(lp, dbstate_catalog)
+                logical_op_to_physical_op(logical_op.clone(), &mut physical_plan, catalog)               
+server::conductor self.run_physical_plan(pp, dbstate)
+query::planner physical_plan_to_op_iterator(db_state.managers, &db_state.catalog, ...)
+server::executor  self.executor.configure_query(op_iterator)
+                  self.executor.execute()
+                  opiterator.get_schema().clone();
+                  opiterator.configure(false);
+                  opiterator.open()?; // creates a heapfile
+                  opiterator.next()?  // reads a page from heapfile
+
+A brief description of your solution. In particular, include what design 
+decisions you made and explain why.
+- When writing hash_join, I had to figure out how to handle a case where 
+multiple tuples had the same hash key. When this occured, any right tuple 
+with that same hash key had to join with each of the tuples in the left 
+table. To handle this, I changed the value type of the hash map from a single
+tuple to a vector of tuples. When a right tuple matches with a key that 
+has multiple values in the left table, it iterates through them -- joining 
+on one of the tuples in the vector with each next() call. I added the 
+attributes current_tuple and current_index to the struct to maintain the state
+of the iteration, if it existed. 
+- With aggregate, I needed to account for the fact that the AVG operator could
+not be calculated until all the tuples had been placed/hashed into groups -- 
+namely, after open() called merge_tuple_into_group() for each tuple in the
+table. So instead of just storing the current result of the operator (the way
+I was able to do for Min, Max, Count, and Sum), I maintained both a sum and a 
+count value within a vector in the hashmap, only calculating the final 
+average for each group in the next() function. 
+
+
+How long you roughly spent on the milestone, and what liked/disliked on 
+the milestone, and the entire project.
+- This was definitely the milestone that took the least time to complete -- 
+it was very helpful to have the filter.rs and cross_join.rs files 
+to refer to, especially for the two joins. The aggregate implementation
+definitely required more thought (it took a while to get used to the Field 
+type) but it still felt less demanding than the heap page and storage manager,
+which I appreciated. 
+- I found the storage milestones very interesting, especially the first one. 
+This milestone (Crusty 3) appeared slightly unrelated to the other two, though 
+it was helpful to have to go through and understand the query process above. 
+Overall a great project -- I learned a lot!

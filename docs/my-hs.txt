@@ -1,0 +1,29 @@
+1) A brief description of your solution, in particular what design decisions 
+you took and why. 
+- In order to properly access the heapfiles and preserve the information during 
+shutdown, I decided to store the container to heapfile mapping as a hashmap of 
+container_ids and &PathBufs. This worked well because I could access the heapfiles
+by initializing a new one using the PathBuf associated with the container_id. It
+was perhaps not the easiest choice for the shutdown() and new() functions, because
+I had to re-map each of the values as strings before I could serialize them. 
+Referencing the memstore storage manager, however, as well as the server crate,
+was helpful for understanding how to properly deal with hashmaps and check if 
+they contain the proper values. 
+- I also decided to store a file lock in heapfile.rs, to avoid having to reopen
+the given file each time a heapfile method was called. This improved the efficiency
+of my program significantly. 
+
+2) How long you roughly spent on the milestone, and what you liked or disliked 
+on the milestone.
+- This milestone took less time than Crusty 1 -- I didn't encounter as many bugs 
+as I usually do during the coding process. There was no experience like the stress 
+test in which I was debugging for more than 8 hours straight for one test. It did, 
+however, take a significant amount of time to really understand the assignment 
+before I could even begin coding. I only began to make process once I understood
+that we weren't actually storing page or heapfile objects, but instead creating 
+them from bytes that we've stored in files on disk. 
+- Implementing storage_manager gave me a much better understanding of the distinction
+between disk and local data and memory, as well as the structure of the heapfile
+in comparison to the heap page. I did appreciate the puzzle-like structure of the
+first milestone, but this one was particularly important for grasping the heapfile
+and storage manager concept of database storage. 

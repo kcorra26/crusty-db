@@ -1,0 +1,76 @@
+#V2
+\\r testdb 
+\\c testdb
+ \\r testdb
+\\r testdb
+\\c testdb
+CREATE TABLE test (a INT, b INT, primary key (a));
+\\i /Users/kaseycorra/cmsc23500-spr-2024/crustydb-kcorra26/e2e-tests/csv/data.csv test
+SELECT * FROM table WHERE a > 10;
+SELECT * FROM test WHERE a > 10;
+\\r testdb
+\\c testdb
+CREATE TABLE test (a INT, b INT, primary key (a));
+\\i ./e2e-tests/csv/data.csv test
+SELECT a FROM test;
+\\r testdb
+\\c testdb
+CREATE TABLE test (a INT, b INT, primary key (a));
+\\i ./e2e-tests/csv/data.csv test
+\\r testdb
+\\c testdb
+CREATE TABLE test (a INT, b INT, primary key (a));
+\\i ./e2e-tests/csv/data.csv test
+SELECT a FROM test;
+\\r testdb
+\\c testdb
+\\r testdb
+\\c testdb
+CREATE TABLE test (a INT, b INT, primary key (a));
+\\i ./e2e-tests/csv/data.csv test
+SELECT a FROM test;
+SELECT * FROM table WHERE a > 10;
+SELECT * FROM test WHERE a > 10;
+\\r testdb
+\\c testdb
+CREATE TABLE test (a INT, b INT, primary key (a));
+\\i ./e2e-tests/csv/data.csv test
+SELECT * FROM test WHERE a > 10;
+\\r testdb
+\\i ./e2e-tests/csv/data.csv test
+\\c testdb
+\\i ./e2e-tests/csv/data.csv test
+SELECT * FROM test WHERE a > 10;
+\\i ./e2e-tests/csv/data.csv test
+\\c testdb
+\\r testdb
+\\c testdb
+CREATE TABLE test (a INT, b INT, primary key (a));
+\\i ./e2e-tests/csv/data.csv test
+SELECT * FROM test WHERE a > 10;
+\\r testdb
+\\c testdb
+CREATE TABLE test (a INT, b INT, primary key (a));
+\\i ./e2e-tests/csv/data.csv test
+SELECT * FROM test WHERE a > 10;
+\\r testdb
+\\c testdb
+CREATE TABLE test (a INT, b INT, primary key (a));
+\\i ./e2e-tests/csv/data.csv test
+SELECT * FROM test WHERE a > 10;
+\\r testdb
+\\c testdb
+CREATE TABLE test (a INT, b INT, primary key (a));
+\\i ./e2e-tests/csv/data.csv test
+SELECT * FROM test WHERE a > 10;
+\\c testdb
+\\r testdb
+\\c testdb
+CREATE TABLE test (a INT, b INT, primary key (a));
+\\i ./e2e-tests/csv/data.csv test
+SELECT * FROM test WHERE a > 10;
+\\r testdb
+\\c testdb
+CREATE TABLE test (a INT, b INT, primary key (a));
+\\i ./e2e-tests/csv/data.csv test
+SELECT * FROM test WHERE a > 10;
